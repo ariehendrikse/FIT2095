@@ -1,0 +1,23 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <img src="logo.png" width = 200 height =200 href='/'>
+    <a href="/">Home</a>
+</head>
+<body>
+    
+    <form action="/newemployee" method="POST">
+        Employee Name:
+        <input type="text" name="name" /> </br>
+        Employee Date of Birth:
+        <input type="date" name="dob" /> </br>
+        Employee Department:
+        <input type="text" name="dept" /> </br>
+        <button>Submit</button>
+    </form>
+
+    <%= successMessage %>
+    
+
+
+</body>
