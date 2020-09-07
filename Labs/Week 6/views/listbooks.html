@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        
+        <link rel="stylesheet" href="styles.css">
+        
+    </head>
+<body style="text-align:center">
+<div class="container" style="height: 500px">
+
+        <div class="center">
+            <a href="/">Home</a>
+    <h3>Books in the library
+
+        
+        <table id="table" style="background-color: blanchedalmond;">
+            <tr style="background-color: gainsboro;">
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publication Date</th>
+                <th>Summary</th>
+            </tr>
+            <% for ( let i =0; i< booksDb.length;i++){ %>
+                <tr>
+                    <td>
+                        <%= booksDb[i].title %>
+                    </td>
+                    <td>
+                        <%= booksDb[i].author %>
+                    </td>
+                    <td>
+                        <%= booksDb[i].isbn %>
+                    </td>
+                    <td>
+                        <%= booksDb[i].pubdate %>
+                    </td>
+                    <td>
+                        <%= booksDb[i].summary %>
+                    </td>
+                </tr>
+                <% }%>
+     </table>
+     
+    </h3>
+    <a href = 'addbook'>Add another book</a><br>
+     <a href = 'updatebook'>Update books</a><br>
+     <a href = 'deletebook'>Delete a book</a><br>
+    </div>
+</div>
+</body>
+</html>
