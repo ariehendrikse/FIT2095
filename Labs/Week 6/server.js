@@ -28,8 +28,6 @@ mongoose.connect(url, { useNewUrlParser: true },
             console.log("Err  ", err);
         } else {
             console.log("Connected successfully to server");
-            db = client.db("week5");
-            //db.createIndex( { "isbn": 1 }, { unique: true } )
         }
     });
 //Routes Handlers
