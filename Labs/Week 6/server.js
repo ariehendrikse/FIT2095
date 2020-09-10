@@ -1,5 +1,5 @@
 const express = require("express");
-const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 const bodyparser = require('body-parser');
 
 //Configure Express
@@ -10,16 +10,19 @@ app.use(express.static('public'));
 app.use(express.static('images'));
 app.use(express.static('css'));
 
+
+const Author = require('./models/author');
+const Book = require('./models/book');
+
+
 app.use(bodyparser.urlencoded({ extended: false }));
 app.listen(8080);
-//Configure MongoDB
-const MongoClient = mongodb.MongoClient;
 // Connection URL
-const url = "mongodb://localhost:27017/";
+const url = "mongodb://localhost:27017/Library";
 //reference to the database (i.e. collection)
 let db;
 //Connect to mongoDB server
-MongoClient.connect(url, { useNewUrlParser: true },
+mongoose.connect(url, { useNewUrlParser: true },
     function (err, client) {
         if (err) {
             console.log("Err  ", err);
