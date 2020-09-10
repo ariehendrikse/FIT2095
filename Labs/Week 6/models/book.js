@@ -9,9 +9,7 @@ let bookSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Author'
-
     },
- //   age     : { type: Number, min: 5, max: 20 }, 
     isbn: {
         type: String,
         require: true,

@@ -13,7 +13,11 @@
     
     <form action="/addbookdata" method="POST" style="background-color: bisque; border:3px">
         <input type="text" name="title" required placeholder="Book Name"/> </br>
-        <input type="text" name="author" placeholder="author"  /> </br>
+        <select name="author" id="author">
+            <% for ( let i =0; i< authorDb.length;i++){ %>
+                <option><%= authorDb[i]._id %></option>
+                <% }%>
+            </select> </br>
         <input type="text" name="isbn" required pattern="[0-9]{13}" title="13 Digit Number Required" placeholder="ISBN" >
          </br>
         <input onfocus='(this.type="date")' onmouseover='(this.type="date")' name="pubdate" placeholder="Publication Date" /> </br>

@@ -14,13 +14,11 @@ app.use(express.static('css'));
 const Author = require('./models/author');
 const Book = require('./models/book');
 
-
 app.use(bodyparser.urlencoded({ extended: false }));
 app.listen(8080);
 // Connection URL
 const url = "mongodb://localhost:27017/Library";
-//reference to the database (i.e. collection)
-let db;
+
 //Connect to mongoDB server
 mongoose.connect(url, { useNewUrlParser: true },
     function (err, client) {
@@ -30,29 +28,92 @@ mongoose.connect(url, { useNewUrlParser: true },
             console.log("Connected successfully to server");
         }
     });
-//Routes Handlers
-//Insert new book
+
 //GET request: send the page to the client
 app.get('/', function (req, res) {
     res.render('index');
 });
 //POST request: receive the details from the client and insert new document (i.e. object) to the collection (i.e. table)
 app.post('/addbookdata', function (req, res) {
-    let bookDetails = req.body;
-    console.log(db.collection('books').find({isbn: bookDetails.isbn}).toArray.length)
-    db.collection('books').find({isbn: bookDetails.isbn}).toArray(function (err, data) {
-        if(data.length>0){ 
-        res.redirect('duplicate');
+    let bookDetails = req.body
+    let book1 = new Book({
+    _id: new mongoose.Types.ObjectId(),
+    isbn: bookDetails.isbn,
+    title: bookDetails.title,
+    author: bookDetails.author,
+    pubdate: bookDetails.pubdate,
+    summary: bookDetails.summary
+    });
+    book1.save(function (err) {if (err){
+        res.redirect('/addbook')
+        console.log(err) ;
     }
-    else    {   db.collection('books').insertOne({ title: bookDetails.title, author: bookDetails.author, isbn: bookDetails.isbn,pubdate: bookDetails.pubdate,summary: bookDetails.summary });
-                res.redirect('getbooks')}
-    })
+
+    else{
+        console.log('Success')
+        res.redirect('/getbooks')
+    }});
+});
+
+app.post('/addauthordata', function (req, res) {
+    let authorDetails = req.body
+    let auth = new Author({
+        _id: new mongoose.Types.ObjectId(),
+        name: {
+            firstName: authorDetails.fname,
+            lastName: authorDetails.lname
+        },
+        dob:  authorDetails.dob,
+        
+        address:{
+            unit:authorDetails.unit,
+            street: authorDetails.street,
+            suburb: authorDetails.suburb,
+            state: authorDetails.state,
+            
+        
+        },
+        numBooks: authorDetails.numBooks,
+    });
+    console.log(auth)
+    auth.save(function (err) {
+        if (err){
+            res.redirect('/addauthor')
+            console.log(err) ;
+        }
+
+        else{
+            console.log('Success')
+            res.redirect('/getauthors')
+        }
+    });
+    
 });
 //List all books
 //GET request: send the page to the client. Get the list of documents form the collections and send it to the rendering engine
 app.get('/getbooks', function (req, res) {
-    db.collection('books').find({}).toArray(function (err, data) {
-        res.render('listbooks', { booksDb: data });
+    Book.find({}).populate('author').exec(function (err, data) {
+        if (err)
+        {
+            console.log(err)
+            res.redirect('index')
+        }
+        else{
+            res.render('listbooks', { booksDb: data });
+
+        }
+    });
+});
+
+app.get('/getauthors', function (req, res) {
+    Author.find({},function (err, data) {
+        if (err){
+            console.log(err)
+        }
+        else{
+            res.render('listauthors', { authorsDb: data });
+        }
+        
     });
 });
 app.get('/duplicate', function (req, res) {
@@ -61,13 +122,23 @@ app.get('/duplicate', function (req, res) {
 //Update book: 
 //GET request: send the page to the client 
 app.get('/updatebook', function (req, res) {
-    db.collection('books').find({}).toArray(function (err, data) {
+    Book.find({},function (err, data) {
         res.render('updatebook', { booksDb: data });
     });
+    
 });
 // Add book
 app.get('/addbook', function (req, res) {
-    res.render('addbook.html');
+    Author.find({},function (err, data) {
+        console.log(data)
+        res.render('addbook.html', {authorDb : data});
+    });
+    
+});
+
+app.get('/addauthor', function (req, res) {
+    res.render('addauthor.html');
+    
 });
 app.get('/addbook/error', function (req, res) {
     res.render('addbook')
@@ -76,38 +147,55 @@ app.get('/addbook/error', function (req, res) {
 app.post('/updatebookdata', function (req, res) {
     let bookDetails = req.body;
     let filter = { isbn: bookDetails.isbn };
-    let theUpdate = { $set: { title: bookDetails.title, author: bookDetails.author,pubdate: bookDetails.pubdate,summary: bookDetails.summary } };
-    db.collection('books').updateOne(filter, theUpdate);
-    res.redirect('/getbooks');// redirect the client to list books page
+    let theUpdate = { $set: { 'title': bookDetails.title, 'author': bookDetails.author,'pubdate': bookDetails.pubdate,'summary': bookDetails.summary } };
+    Book.updateOne(filter, theUpdate, function (err, doc) {
+        if (err){
+            console.log(err);
+            res.redirect('updatebook')
+        }
+        else{
+            res.redirect('getbooks')
+        }
+    });
 })
 //Update book: 
 //GET request: send the page to the client to enter the book's name
 app.get('/deletebook', function (req, res) {
-    db.collection('books').find({}).toArray(function (err, data) {
-        res.render('deletebook', { booksDb: data });
+    Book.find({}, 'isbn',function (err, data) {
+        if (err) {
+            console.log("Err  ", err);
+        } else {
+            res.render('deletebook', { booksDb: data });
+        }
+        
     });
 });
 
 app.post('/deleteauthordata', function (req, res) {
-    let bookDetails = req.body;
- 
-    console.log(bookDetails.isbn)
-    let filter = { author: bookDetails.author };
-    db.collection('books').deleteMany(filter);
-    res.redirect('/getbooks');// redirect the client to list books page
-});
-app.get('/deleteall', function (req, res) {
-    db.collection('books').find({}).toArray(function (err, data) {
-        authors=Array.from(new Set(data.map((item)=>item.author)));
-        res.render('deleteall', { booksDb: authors });
+    let authorDetails = req.body;
+    Book.deleteMany({ author: authorDetails._id }, function (err, doc) {
+        if (err) {
+            console.log("Err  ", err);
+        } else {
+            console.log("Deletion All books from this author");
+        }
     });
+    Author.findByIdAndDelete(authorDetails._id);
+    res.redirect('/getauthors');// redirect the client to list books page
 });
+
 //POST request: receive the book's name and do the delete operation 
 app.post('/deletebookdata', function (req, res) {
     let bookDetails = req.body;
  
     console.log(bookDetails.isbn)
-    let filter = { isbn: bookDetails.isbn };
-    db.collection('books').deleteOne(filter);
-    res.redirect('/getbooks');// redirect the client to list books page
+    Book.deleteOne({ isbn: bookDetails.isbn }, function (err, doc) {
+        if (err) {
+            console.log("Err  ", err);
+        } else {
+            console.log("Deletion Success");
+            res.redirect('/getbooks')
+        }
+    });
+    ;// redirect the client to list books page
 });

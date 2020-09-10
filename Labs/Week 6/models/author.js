@@ -8,7 +8,10 @@ let authorSchema = mongoose.Schema({
         },
         lastName: String
     },
-    dob:  Date,
+    dob:  {
+        type: Date,
+        get: (val)=>{val.format('DD-MM-YYYY')}
+    },
     
     address:{
         unit: String,
@@ -16,19 +19,17 @@ let authorSchema = mongoose.Schema({
         suburb: String,
         state: {
             type: String,
-            validate: (val)=> val==2 || val == 3
+            validate: (val)=> val.length==2 || val.length == 3
         },
-        numBooks: {
-            type: Number,
-            validate: (val)=> 1<=val && val<=150
-        }
+        
     
     },
-
- //   age     : { type: Number, min: 5, max: 20 }, 
-    created: {
-        type: Date,
-        default: Date.now
-    }
+    numBooks: {
+        type: Number,
+        min: 0,
+        max:150,
+        default:0
+    },
+    dob: Date
 });
 module.exports = mongoose.model('Author', authorSchema);

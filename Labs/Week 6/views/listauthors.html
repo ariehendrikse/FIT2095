@@ -16,37 +16,39 @@
         
         <table id="table" style="background-color: blanchedalmond;">
             <tr style="background-color: gainsboro;">
-                <th>Title</th>
-                <th>Author</th>
-                <th>ISBN</th>
-                <th>Publication Date</th>
-                <th>Summary</th>
+                <th>ID</th>
+
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Number of Books</th>
+   
             </tr>
-            <% for ( let i =0; i< booksDb.length;i++){ %>
+            <% for ( let i =0; i< authorsDb.length;i++){ %>
                 <tr>
                     <td>
-                        <%= booksDb[i].title %>
+                        <%= authorsDb[i]._id %> 
                     </td>
                     <td>
-                        <%= booksDb[i].author.name.firstName %> <%= booksDb[i].author.name.lastName %>
+                        <%= authorsDb[i].name.firstName %> <%= authorsDb[i].name.lastName %>
                     </td>
                     <td>
-                        <%= booksDb[i].isbn %>
+                        <%= authorsDb[i].address.unit %> <%= authorsDb[i].address.street %> ,<%= authorsDb[i].address.suburb %>, <%= authorsDb[i].address.state %>
                     </td>
                     <td>
-                        <%= booksDb[i].pubdate %>
+                        <%= authorsDb[i].dob %>
                     </td>
                     <td>
-                        <%= booksDb[i].summary %>
+                        <%= authorsDb[i].numBooks %>
                     </td>
                 </tr>
                 <% }%>
      </table>
      
     </h3>
-    <a href = 'addbook'>Add another book</a><br>
-     <a href = 'updatebook'>Update books</a><br>
-     <a href = 'deletebook'>Delete a book</a><br>
+    <a href = 'addauthor'>Add another author</a><br>
+     <a href = 'updateauthor'>Update authors</a><br>
+     <a href = 'deleteauthor'>Delete an author</a><br>
     </div>
 </div>
 </body>
