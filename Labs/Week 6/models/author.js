@@ -20,15 +20,16 @@ let authorSchema = mongoose.Schema({
         suburb: String,
         state: {
             type: String,
-            validate: (val)=> val.length==2 || val.length == 3
+            validate: (val)=> val.length==2 || val.length == 3 || (!val)
         },
         
     
     },
     numBooks: {
         type: Number,
-        validate: (val) => val<=150 && val>=1,
-        default:1
+        min: 1,
+        max: 150,
+        default: 1
     },
     dob: Date
 });

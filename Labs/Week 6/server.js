@@ -23,6 +23,8 @@ app.listen(8080);
 const url = "mongodb://localhost:27017/Library";
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('toObject', { getters: true });
+mongoose.set('toJSON', { getters: true });
 //Connect to mongoDB server
 mongoose.connect(url, { useNewUrlParser: true },
     function (err, client) {
@@ -168,9 +170,8 @@ app.get('/getauthors', function (req, res) {
             console.log(err)
         }
         else{
-            res.render('listauthors', { authorsDb: data });
-        }
-        
+            res.render('listauthors', { authorsDb: data})
+        }      
     });
 });
 app.get('/duplicate', function (req, res) {
