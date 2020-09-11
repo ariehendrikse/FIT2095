@@ -101,6 +101,7 @@ app.post('/addauthordata', function (req, res) {
         
         },
         numBooks: authorDetails.numbook,
+        abn: authorDetails.abn
     });
     console.log(auth)
     auth.save(function (err) {

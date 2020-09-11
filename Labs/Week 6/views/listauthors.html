@@ -24,6 +24,7 @@
                 <th class = "inp">Address</th>
                 <th class = "inp">Date of Birth</th>
                 <th class = "inp">Number of Books</th>
+                <th class = "inp">ABN</th>
    
             </tr>
             <% for ( let i =0; i< authorsDb.length;i++){ %>
@@ -42,6 +43,9 @@
                     </td>
                     <td>
                         <%= authorsDb[i].numBooks %>
+                    </td>
+                    <td>
+                        <%= authorsDb[i].abn %>
                     </td>
                 </tr>
                 <% }%>
