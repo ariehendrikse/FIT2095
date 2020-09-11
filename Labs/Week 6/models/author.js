@@ -26,9 +26,9 @@ let authorSchema = mongoose.Schema({
     },
     numBooks: {
         type: Number,
-        min: 0,
+        min: 1,
         max:150,
-        default:0
+        default:1
     },
     dob: Date
 });

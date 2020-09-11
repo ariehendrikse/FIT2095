@@ -1,5 +1,5 @@
 .container { 
-    height: 200px;
+    height: 500px;
     position: relative;
     border: 3px solid red; 
     text-align: center;
@@ -17,11 +17,11 @@
 
   table, th, td {
     border: 1px solid black;
-    column-width: 200px;
+    column-width: 600px;
     background-color: blanchedalmond;
   }
   .bg, body {
-    /* The image used */
+        /* The image used */
     background-image: url("books.jpg");
   
     /* Full height */
@@ -32,3 +32,7 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+.logo { height: 60px; width: 60px; background-size: 60px 60px; background-image: url('logo.png'); }
+
+.inp {width: 500px}

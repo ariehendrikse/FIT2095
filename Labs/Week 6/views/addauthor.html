@@ -4,6 +4,8 @@
 
     
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <div class="logo"> </div>
+
 </head>
 
 <div class='container' style="background-color: blanchedalmond; border-color: chocolate;">
@@ -12,14 +14,15 @@
         <a href="/">Home</a>
     
     <form action="/addauthordata" method="POST" style="background-color: bisque; border:3px">
-        <input type="text" name="fname" required placeholder="First name"/> </br>
-        <input type="text" name="lname" placeholder="Last Name"  /> </br>
-        <input onfocus='(this.type="date")' onmouseover='(this.type="date")' type="date" name="dob"  placeholder="Date of Birth" ></br>
-        <input name="street" placeholder="Street" /> </br>
-        <input name="suburb" placeholder="Suburb" /> </br>
-        <input name="state" placeholder="State" /> </br>
-        <input name="unit" placeholder="Unit/Street Number" /> </br>
-        <input name="numbook" placeholder="Number of Books" /> </br>
+        <input class = "inp"type="text" name="fname" required placeholder="First name"/> </br>
+        <input class = "inp" type="text" name="lname" placeholder="Last Name"  /> </br>
+        Date of Birth<br>
+        <input class = "inp" onfocus='(this.type="date")' onmouseover='(this.type="date")' type="date" name="dob"  placeholder="Date of Birth" ></br>
+        <input class = "inp" name="street" placeholder="Street" /> </br>
+        <input class = "inp" name="suburb" placeholder="Suburb" /> </br>
+        <input class = "inp" name="state" placeholder="State" required pattern="[A-Za-z]{2}|[A-Za-z]{3}"/> </br>
+        <input class = "inp" name="unit" placeholder="Unit/Street Number" /> </br>
+        <input class = "inp" type="number" name="numbook" placeholder="Number of Books" min="1" max ="150"/> </br>
         <button>Add Author</button>
     </form>
     </div>

@@ -4,6 +4,8 @@
 
         
         <link rel="stylesheet" href="styles.css">
+        <div class="logo"> </div>
+
         
     </head>
 <body style="text-align:center">
@@ -11,17 +13,17 @@
 
         <div class="center">
             <a href="/">Home</a>
-    <h3>Books in the library
+    <h3>Authors in the library
 
         
         <table id="table" style="background-color: blanchedalmond;">
             <tr style="background-color: gainsboro;">
-                <th>ID</th>
+                <th class = "inp" >ID</th>
 
-                <th>Name</th>
-                <th>Address</th>
-                <th>Date of Birth</th>
-                <th>Number of Books</th>
+                <th class = "inp" >Name</th>
+                <th class = "inp">Address</th>
+                <th class = "inp">Date of Birth</th>
+                <th class = "inp">Number of Books</th>
    
             </tr>
             <% for ( let i =0; i< authorsDb.length;i++){ %>
@@ -47,7 +49,7 @@
      
     </h3>
     <a href = 'addauthor'>Add another author</a><br>
-     <a href = 'updateauthor'>Update authors</a><br>
+     <a href = 'updatebooknum'>Update author book numbers</a><br>
      <a href = 'deleteauthor'>Delete an author</a><br>
     </div>
 </div>

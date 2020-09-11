@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <div class="logo"> </div>
+
+    </head>
+<body>
+    <div class="container"><div class="center"><a href="/">Home</a>
+    <form action="/updatebooknumdata" method="POST">
+        <select name="_id" id="_id">
+            <% for ( let i =0; i< authorsDb.length;i++){ %>
+                <option><%= authorsDb[i]._id %></option>
+                <% }%>
+            </select><br>
+            <input class = "inp" type="number" name="numbook" placeholder="Number of Books" min="1" max ="150"/> </br>
+        <button>Update Author Number of Books</button>
+    </form>
+</div></div>
+    
+
+
+</body>

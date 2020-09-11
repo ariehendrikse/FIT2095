@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require('body-parser');
 
+
 //Configure Express
 const app = express()
 app.engine('html', require('ejs').renderFile);
@@ -13,12 +14,14 @@ app.use(express.static('css'));
 
 const Author = require('./models/author');
 const Book = require('./models/book');
+const author = require("./models/author");
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.listen(8080);
 // Connection URL
 const url = "mongodb://localhost:27017/Library";
 
+mongoose.set('useFindAndModify', false);
 //Connect to mongoDB server
 mongoose.connect(url, { useNewUrlParser: true },
     function (err, client) {
@@ -36,23 +39,44 @@ app.get('/', function (req, res) {
 //POST request: receive the details from the client and insert new document (i.e. object) to the collection (i.e. table)
 app.post('/addbookdata', function (req, res) {
     let bookDetails = req.body
-    let book1 = new Book({
-    _id: new mongoose.Types.ObjectId(),
-    isbn: bookDetails.isbn,
-    title: bookDetails.title,
-    author: bookDetails.author,
-    pubdate: bookDetails.pubdate,
-    summary: bookDetails.summary
-    });
-    book1.save(function (err) {if (err){
-        res.redirect('/addbook')
-        console.log(err) ;
-    }
+    Book.find({isbn: bookDetails.isbn},function (err, data) {
+        if(data.length>0){ 
+        res.redirect('duplicate');
+        }
+        else    {
+            let book1 = new Book({
+            _id: new mongoose.Types.ObjectId(),
+            isbn: bookDetails.isbn,
+            title: bookDetails.title,
+            author: bookDetails.author,
+            pubdate: bookDetails.pubdate,
+            summary: bookDetails.summary
+            });
+            book1.save(function (err) {
+                if (err){
+                    res.redirect('/addbook')
+                    console.log(err) ;
+                }
 
-    else{
-        console.log('Success')
-        res.redirect('/getbooks')
-    }});
+                else{
+                    console.log('Success')
+                    Author.findByIdAndUpdate(bookDetails.author, {$inc: { numBooks: 1 }},{runValidators:true},
+                        function (err, docs) { 
+                    if (err){ 
+                        console.log('Author has too many books') 
+                        res.redirect('updatebooknum')
+                        
+                    } 
+                    else{ 
+                        console.log("Updated Author : ", docs); 
+                        res.redirect('getbooks')
+                    }
+                    }
+                    )
+                }
+            });
+        }
+    })
 });
 
 app.post('/addauthordata', function (req, res) {
@@ -73,7 +97,7 @@ app.post('/addauthordata', function (req, res) {
             
         
         },
-        numBooks: authorDetails.numBooks,
+        numBooks: authorDetails.numbook,
     });
     console.log(auth)
     auth.save(function (err) {
@@ -105,6 +129,37 @@ app.get('/getbooks', function (req, res) {
     });
 });
 
+app.get('/updatebooknum', function (req, res) {
+    Author.find({},function (err, data) {
+        if (err)
+        {
+            console.log(err)
+            res.redirect('index')
+        }
+        else{
+            res.render('updatebooknum', { authorsDb: data });
+
+        }
+    });
+});
+
+app.post('/updatebooknumdata',(req,res)=>{ 
+    let authorDetails=req.body;
+    Author.findByIdAndUpdate(authorDetails._id, { numBooks: authorDetails.numbook }, 
+                            function (err, docs) { 
+    if (err){ 
+        res.redirect('updatebooknum')
+        console.log(err) 
+    } 
+    else{ 
+        res.redirect('getauthors')
+        console.log("Updated Author : ", docs); 
+    }
+}
+)
+}
+);
+
 app.get('/getauthors', function (req, res) {
     Author.find({},function (err, data) {
         if (err){
@@ -130,8 +185,12 @@ app.get('/updatebook', function (req, res) {
 // Add book
 app.get('/addbook', function (req, res) {
     Author.find({},function (err, data) {
-        console.log(data)
-        res.render('addbook.html', {authorDb : data});
+        if (err){
+            console.log(err);
+        }
+        else{
+            res.render('addbook.html', {authorDb : data});
+        }
     });
     
 });
@@ -170,18 +229,37 @@ app.get('/deletebook', function (req, res) {
         
     });
 });
+app.get('/deleteauthor', function (req, res) {
+    Author.find({}, '_id',function (err, data) {
+        if (err) {
+            console.log("Err  ", err);
+        } else {
+            res.render('deleteauthor', { authorDb: data });
+        }
+        
+    });
+});
 
 app.post('/deleteauthordata', function (req, res) {
     let authorDetails = req.body;
     Book.deleteMany({ author: authorDetails._id }, function (err, doc) {
         if (err) {
             console.log("Err  ", err);
+            res.redirect('deleteauthor')
         } else {
             console.log("Deletion All books from this author");
+            Author.findByIdAndDelete(authorDetails._id, function (err, doc) {
+                if (err) {
+                    console.log("Err  ", err);
+                    res.redirect('deleteauthor')
+                } else {
+                    console.log("Deleteted this Author");
+                    res.redirect('getauthors')
+                }
+            });
         }
     });
-    Author.findByIdAndDelete(authorDetails._id);
-    res.redirect('/getauthors');// redirect the client to list books page
+    
 });
 
 //POST request: receive the book's name and do the delete operation 

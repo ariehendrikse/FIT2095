@@ -3,14 +3,16 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <link rel="stylesheet" type='text/css' href="styles.css">
+        <div class="logo"> </div>
+
         
     </head>
 <body>
     <div class="container" style="height: 20px;; text-align: center;"><div class="center" ><a href="/">Home</a></div></div>
     <div class="container" style="border-color: bisque;"><div class="center">
     <form action="/deleteauthordata" method="POST">
-        ISBN:
-        <select name="_id" id="_id">
+        ID:
+        <select class = "inp" name="_id" id="_id">
             <% for ( let i =0; i< authorDb.length;i++){ %>
                 <option><%= authorDb[i]._id %></option>
                 <% }%>

@@ -4,6 +4,8 @@
 
     
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <div class="logo"> </div>
+
 </head>
 
 <div class='container' style="background-color: blanchedalmond; border-color: chocolate;">
@@ -12,17 +14,17 @@
         <a href="/">Home</a>
     
     <form action="/addbookdata" method="POST" style="background-color: bisque; border:3px">
-        <input type="text" name="title" required placeholder="Book Name"/> </br>
-        Author
-        <select name="author" id="author" placeholder='Author' required>
+        <input class = "inp" type="text" name="title" required placeholder="Book Name"/> </br>
+        Author<br>
+        <select class = "inp" name="author" id="author" placeholder='Author' required>
             <% for ( let i =0; i< authorDb.length;i++){ %>
                 <option><%= authorDb[i]._id %></option>
                 <% }%>
             </select> </br>
-        <input type="text" name="isbn" required pattern="[0-9]{13}" title="13 Digit Number Required" placeholder="ISBN" >
+        <input class = "inp" type="text" name="isbn" required pattern="[0-9]{13}" title="13 Digit Number Required" placeholder="ISBN" >
          </br>
-        <input onfocus='(this.type="date")' onmouseover='(this.type="date")' name="pubdate" placeholder="Publication Date" /> </br>
-        <input type="text" name="summary" placeholder="Book Summary" /> </br>
+        <input class = "inp" onfocus='(this.type="date")' onmouseover='(this.type="date")' name="pubdate" placeholder="Publication Date" /> </br>
+        <input class = "inp" type="text" name="summary" placeholder="Book Summary" /> </br>
         <button>Add Book</button>
     </form>
     </div>
