@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment')
 let authorSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
@@ -10,7 +11,7 @@ let authorSchema = mongoose.Schema({
     },
     dob:  {
         type: Date,
-        get: (val)=>{val.format('DD-MM-YYYY')}
+        get: (val)=>moment(val).format('DD-MM-YYYY')
     },
     
     address:{
