@@ -27,8 +27,7 @@ let authorSchema = mongoose.Schema({
     },
     numBooks: {
         type: Number,
-        min: 1,
-        max:150,
+        validate: (val) => val<=150 && val>=1,
         default:1
     },
     dob: Date

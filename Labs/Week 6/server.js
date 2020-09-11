@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require('body-parser');
+const moment = require('moment');
 
 
 //Configure Express
@@ -60,7 +61,7 @@ app.post('/addbookdata', function (req, res) {
 
                 else{
                     console.log('Success')
-                    Author.findByIdAndUpdate(bookDetails.author, {$inc: { numBooks: 1 }},{runValidators:true},
+                    Author.findByIdAndUpdate(bookDetails.author, {$inc: { numBooks: 1 }},{ runValidators: true },
                         function (err, docs) { 
                     if (err){ 
                         console.log('Author has too many books') 
@@ -145,6 +146,7 @@ app.get('/updatebooknum', function (req, res) {
 
 app.post('/updatebooknumdata',(req,res)=>{ 
     let authorDetails=req.body;
+        
     Author.findByIdAndUpdate(authorDetails._id, { numBooks: authorDetails.numbook }, 
                             function (err, docs) { 
     if (err){ 
