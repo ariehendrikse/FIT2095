@@ -39,7 +39,6 @@ module.exports = {
         });
     },
     deleteActor: function (req, res) {
-        console.log(req.params)
         Movie.findOne({ _id: req.params.movId }, function (err, movie) {
             if (err) return res.status(400).json(err);
             if (!movie) return res.status(404).json();
@@ -50,7 +49,6 @@ module.exports = {
             
         },
     addActor: function (req, res) {
-        console.log(req.params)
         Movie.findOne({ _id: req.params.id }, function (err, movie) {
             if (err) return res.status(400).json(err);
             if (!movie) return res.status(404).json();
@@ -70,15 +68,14 @@ module.exports = {
             .exec(function (err, movies) {
                 if (err) return res.status(400).json(err);
                 if (!movies) return res.status(404).json();
-                res.status(200).json(movies);
+                res.json(movies);
             });
     },
     deleteYears: function (req, res) {
-        console.log('hello')
         details=req.body
         Movie.findByIdAndDelete({year : {$lte :details.year1, $gte : details.year2}},(err,movies)=>{
             if (err) return res.status(400).json(err)
-            res.status(200).json()})
+            res.json()})
     }
             
 };
