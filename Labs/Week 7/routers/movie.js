@@ -3,7 +3,7 @@ var Movie = require('../models/movie');
 const mongoose = require('mongoose');
 module.exports = {
     getAll: function (req, res) {
-        Movie.find().populate('actor').exec(function (err, movies) {
+        Movie.find().populate('actors').exec(function (err, movies) {
             if (err) return res.status(400).json(err);
             res.json(movies);
         });
@@ -44,7 +44,7 @@ module.exports = {
             if (!movie) return res.status(404).json();
             let u={actors: movie.actors.filter((id)=>id!=req.params.actId)}
             Movie.findOneAndUpdate({_id:req.params.movId},
-                u,(err,doc)=>res.json(doc))
+                u,(err,doc)=>res.json())
             });
             
         },
@@ -73,7 +73,7 @@ module.exports = {
     },
     deleteYears: function (req, res) {
         details=req.body
-        Movie.findByIdAndDelete({year : {$lte :details.year1, $gte : details.year2}},(err,movies)=>{
+        Movie.remove().where('year').lte(details.year1).gte(details.year2).exec((err,movies)=>{
             if (err) return res.status(400).json(err)
             res.json()})
     }

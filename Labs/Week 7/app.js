@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost:27017/movies', function (err) {
 app.delete('/actors/:id/cascade',actors.deleteCascade);
 app.delete('/actors/:actId/:movId',actors.deleteMovie);
 app.delete('/movies/:movId/:actId',movies.deleteActor);
+app.delete('/movies/years', movies.deleteYears)
 
 
 
@@ -28,7 +29,6 @@ app.put('/actors/:id', actors.updateOne);
 app.post('/actors/:id/movies', actors.addMovie);
 app.post('/movies/:id/actors', movies.addActor)
 app.get('/movies/:year1/:year2', movies.getYears)
-app.delete('/movies/year', movies.deleteYears)
 
 
 app.delete('/actors/:id', actors.deleteOne);
