@@ -11,7 +11,8 @@ let authorSchema = mongoose.Schema({
     },
     dob:  {
         type: Date,
-        get: (val)=>moment(val).format('DD-MM-YYYY')
+        get: (val)=>{
+            return String(moment(val).format('DD-MM-YYYY'))}
     },
     
     address:{

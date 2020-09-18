@@ -23,6 +23,7 @@
                 <th>ISBN</th>
                 <th>Publication Date</th>
                 <th>Summary</th>
+                <th>ABN</th>
             </tr>
             <% for ( let i =0; i< booksDb.length;i++){ %>
                 <tr>
@@ -40,6 +41,9 @@
                     </td>
                     <td>
                         <%= booksDb[i].summary %>
+                    </td>
+                    <td>
+                        <%= booksDb[i].author.abn %>
                     </td>
                 </tr>
                 <% }%>

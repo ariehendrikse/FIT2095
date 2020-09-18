@@ -63,21 +63,11 @@ app.post('/addbookdata', function (req, res) {
 
                 else{
                     console.log('Success')
-                    Author.findByIdAndUpdate(bookDetails.author, {$inc: { numBooks: 1 }},{ runValidators: true },
-                        function (err, docs) { 
-                    if (err){ 
-                        console.log('Author has too many books') 
-                        res.redirect('updatebooknum')
-                        
-                    } 
-                    else{ 
-                        console.log("Updated Author : ", docs); 
-                        res.redirect('getbooks')
+                    res.redirect('getbooks')
                     }
-                    }
-                    )
+                    
                 }
-            });
+            );
         }
     })
 });
@@ -141,11 +131,21 @@ app.get('/updatebooknum', function (req, res) {
             res.redirect('index')
         }
         else{
+            Author.findByIdAndUpdate(bookDetails.author, {$inc: { numBooks: 1 }},{ runValidators: true },
+                function (err, docs) { 
+            if (err){ 
+                console.log('Author has too many books') 
+                res.redirect('updatebooknum')
+                
+            } 
+            else{ 
+                console.log("Updated Author : ", docs); 
+                res.redirect('getbooks')
+            }
             res.render('updatebooknum', { authorsDb: data });
 
-        }
-    });
-});
+        })
+    }})});
 
 app.post('/updatebooknumdata',(req,res)=>{ 
     let authorDetails=req.body;
