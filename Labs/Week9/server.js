@@ -3,10 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const actors = require('./routers/actor');
 const movies = require('./routers/movie');
+const path = require('path');
 const app = express();
 app.listen(8080);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/", express.static(path.join(__dirname, "dist/Week9")));
 mongoose.connect('mongodb://localhost:27017/movies', function (err) {
     if (err) {
         return console.log('Mongoose - connection error:', err);
@@ -17,8 +19,9 @@ mongoose.connect('mongodb://localhost:27017/movies', function (err) {
 //Actor RESTFul endpoionts 
 app.delete('/actors/:id/cascade',actors.deleteCascade);
 app.delete('/actors/:actId/:movId',actors.deleteMovie);
+app.delete('/movies/before/:year', movies.deleteYears)
+
 app.delete('/movies/:movId/:actId',movies.deleteActor);
-app.delete('/movies/years', movies.deleteYears)
 
 
 

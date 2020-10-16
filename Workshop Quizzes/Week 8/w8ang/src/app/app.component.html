@@ -1,0 +1,18 @@
+
+Fruit: <input type="text" [(ngModel)]="n"><br>
+Calories: <input  type="number" [(ngModel)]="c"><br>
+<button (click)="addFruit()">Add Fruit</button>
+<button (click)="deleteUnhealthy()">Delete Unhealthy Fruit</button>
+
+<table>
+  <tr>
+    <th>#</th>
+    <th> Fruit Name </th>
+    <th> Calories </th>
+  </tr>
+  <tr *ngFor="let fruit of fruits,let i = index">
+    <td>{{i+1}}</td>
+    <td>{{fruit.name}}</td>
+    <td>{{fruit.calories}}</td>
+  </tr>
+</table>

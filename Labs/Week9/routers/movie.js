@@ -78,8 +78,8 @@ module.exports = {
             });
     },
     deleteYears: function (req, res) {
-        details=req.body
-        Movie.remove().where('year').lte(details.year1).gte(details.year2).exec((err,movies)=>{
+        details=req.params
+        Movie.remove().where('year').lt(details.year).exec((err,movies)=>{
             if (err) return res.status(400).json(err)
             res.json()})
     }
