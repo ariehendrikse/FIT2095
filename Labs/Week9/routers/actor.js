@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Actor = require('../../Week9/models/actor');
-const Movie = require('../../Week9/models/movie');
+const Actor = require('../models/actor');
+const Movie = require('../models/movie');
 module.exports = {
     getAll: function (req, res) {
         Actor.find().populate('movies').exec(function (err, actors) {
@@ -63,6 +63,11 @@ module.exports = {
                 actor.save(function (err) {
                     if (err) return res.status(500).json(err);
                     res.json(actor);
+                });
+                movie.actors.push(actor._id);
+                movie.save(function (err) {
+                    if (err) return res.status(500).json(err);
+                    res.status(201).json();
                 });
             })
         });
