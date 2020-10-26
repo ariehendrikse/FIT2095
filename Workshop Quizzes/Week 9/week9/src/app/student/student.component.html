@@ -1,0 +1,10 @@
+
+<!-- student.component.html-->
+<button (click)="toggleSection()" >Toggle Me</button>
+  <div *ngIf="section==1" style="background-color: aqua; width: 20%">
+    <h5>This is Section 1</h5>
+  </div>
+
+  <div *ngIf="section==2" style="background-color: #d2691e;width: 20%">
+    <h5>This is Section 2</h5>
+  </div>
