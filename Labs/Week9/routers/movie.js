@@ -1,5 +1,5 @@
-var Actor = require('../../Week9/models/actor');
-var Movie = require('../../Week9/models/movie');
+var Actor = require('../models/actor');
+var Movie = require('../models/movie');
 const mongoose = require('mongoose');
 module.exports = {
     getAll: function (req, res) {
