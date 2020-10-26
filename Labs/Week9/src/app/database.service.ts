@@ -45,5 +45,9 @@ export class DatabaseService {
     let url = '/movies/'+movie.id+'/actors'
     return this.http.post(url, actor, httpOptions)
   }
+  addMovieToActor(movie,actor){
+    let url = '/actors /actors/'+actor.id+'/movies'
+    return this.http.post(url, movie, httpOptions)
+  }
   
 }
