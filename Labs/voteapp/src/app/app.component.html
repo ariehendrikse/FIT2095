@@ -1,0 +1,19 @@
+<div style="text-align: center;">
+  <div id="chatContainer">
+    {{pollObj.question}}<br>
+    <select (change)='sendVote()' class="container" [(ngModel)]='voteNumber'>
+      <option *ngFor="let item of pollObj.options" value={{item.value}}>{{item.text}}</option>    
+    </select>
+  </div>
+
+  </div>
+  <div style="display: block;">
+    <canvas baseChart 
+      [data]="pieChartData" 
+      [labels]="pieChartLabels" 
+      [chartType]="pieChartType"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend">
+    </canvas>
+  </div>
